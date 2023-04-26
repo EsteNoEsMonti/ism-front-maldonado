@@ -1,0 +1,17 @@
+.Container {
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+.Box {
+  	padding-top: 15px;
+  	padding-bottom: 15px;
+  	min-width: 100%;
+  	max-height: auto;
+}
+
+.Icon {
+	padding: 0.5rem;
+	font-size: 1.2rem;
+	color: #1890ff;
+}

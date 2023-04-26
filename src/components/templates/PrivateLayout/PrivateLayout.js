@@ -57,6 +57,7 @@ const PrivateLayout = ({ children }) => {
                 onClick: siderBarItem.onClick
               })
             )}
+            style={{ paddingTop: 10}}
           />
         </Sider>
         <Layout>
