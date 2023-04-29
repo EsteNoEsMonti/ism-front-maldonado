@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Col, Spin, Tooltip } from 'antd';
-import styles from 'components/ActionTable/ActionTable.module.css';
+import styles from './ActionTable.module.css';
 
 const ActionTable = ({ columns, items, isLoading, filterOn, sortingOn, actions, pagination = { pageSize: 50 }, loading = false }) => {
 

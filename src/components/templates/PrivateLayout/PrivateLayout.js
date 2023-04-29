@@ -1,9 +1,8 @@
 import React from 'react'
 import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Footer from '../Footer/Footer';
-
 
 const PrivateLayout = ({ children }) => {
   // uso de colores del tema
@@ -30,6 +29,15 @@ const PrivateLayout = ({ children }) => {
     }
   ]
 
+  // function setDefaultMenu() {
+  const location = useLocation();
+  const pathArray = location.pathname.split('/');
+  const fistPath = pathArray[1];
+  // const lastPath = pathArray[pathArray.length - 1];
+  // output: "courses" si la URL es http://localhost:3001/courses
+  // output: "6449623fb83ce6cfabf3bc27" si la URL es http://localhost:3001/courses/6449623fb83ce6cfabf3bc27
+  // return ();
+  // }
 
   return (
     <>
@@ -38,17 +46,18 @@ const PrivateLayout = ({ children }) => {
           breakpoint="lg"
           collapsedWidth="0"
           onBreakpoint={(broken) => {
-            console.log(broken);
+            // console.log(broken);
           }}
           onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
+            // console.log(collapsed, type);
           }}
         >
           <div className="logo" />
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['students']}
+            // defaultSelectedKeys={['students']}
+            // defaultSelectedKeys={[fistPath]}
             items={siderBarContent.map(
               (siderBarItem) => ({
                 key: siderBarItem.key,
@@ -57,7 +66,8 @@ const PrivateLayout = ({ children }) => {
                 onClick: siderBarItem.onClick
               })
             )}
-            style={{ paddingTop: 10}}
+            style={{ paddingTop: 10 }}
+            selectedKeys={[fistPath]}
           />
         </Sider>
         <Layout>

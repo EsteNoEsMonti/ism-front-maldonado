@@ -1,0 +1,29 @@
+.imgPortada {
+  /* background-image: url('../../assets/images/portada.jpg'); */
+  background-color: red;
+  height: 180px;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  color: white;
+}
+
+.columnaPerfil {
+  padding: 20px;
+}
+
+.columnaAcciones {
+  padding: 20px;
+} 
+
+.line {
+  width: 100%;
+  background-color: rgba(grey, grey, grey, 0.2);
+  color: rgba(grey, grey, grey, 0.2);
+  margin-top: 20px;
+}
+
+.blockPerfil{
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
