@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { api_urls } from '../types/types';
+import { api_urls } from '../../types/types';
 
 export default async function getCourses() {
   try {
     const response = await axios({
-      url: api_urls.API_GET_COURSES,
+      url: api_urls.API_COURSES,
       method: 'GET',
       headers: {
         'Access-Control-Allow-Origin': '*',

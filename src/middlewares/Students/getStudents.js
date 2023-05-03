@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { api_urls } from '../types/types';
+import { api_urls } from '../../types/types';
 
-
-export default async function getCourse(id) {
+export default async function getStudents() {
   try {
     const response = await axios({
-      url: `${api_urls.API_GET_COURSES}/${id}`,
+      url: api_urls.API_STUDENTS,
       method: 'GET',
       headers: {
         'Access-Control-Allow-Origin': '*',

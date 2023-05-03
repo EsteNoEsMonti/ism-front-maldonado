@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react'
-import getCourses from '../../../middlewares/getCourses';
 import { Spin, Row, Col } from 'antd';
 import CardItem from '../../CardItem/CardItem';
+import getCourses from '../../../middlewares/Courses/getCourses';
 
 const Courses = () => {
   const [courses, setCourses] = useState([])

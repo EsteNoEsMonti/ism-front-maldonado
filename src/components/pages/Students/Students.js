@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import getStudents from '../../../middlewares/getStudents'
+import getStudents from '../../../middlewares/Students/getStudents'
 import ActionTable from '../../ActionTable/ActionTable'
-import { Button, Modal, Descriptions, Avatar, List } from 'antd'
+import { Button, Modal, Descriptions, Avatar, List, Typography, message } from 'antd'
 import { DeleteOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import ISM_LOGO from '../../../assets/images/ISM_LOGO.png'
 import { useNavigate } from 'react-router-dom'
+import deleteStudent from '../../../middlewares/Students/deleteStudent'
 
 
 const Students = () => {
   const [students, setStudents] = useState([])
+  console.log('🌙 ', 'students', '->', students)
   const [actions, setActions] = useState([]);
+
+  const [changeInStudents, setChangeInStudents] = useState(false)
+
   const [detailModalVisibility, setDetailModalVisibility] = useState(false)
   const [detailStudent, setDetailStudent] = useState({})
+
+  const [deleteModalVisibility, setDeleteModalVisibility] = useState(false)
+  const [studentToDelete, setStudentToDelete] = useState({})
+
   const navigate = useNavigate()
+  const [messageApi, contextHolder] = message.useMessage()
+
   const columns = [
     { 'nombre': 'Name' },
     { 'apellido': 'Lastname' }
   ]
 
+  const { Title, Text } = Typography
+
   // Detail
-  function openDetailModal(student) {
-    setDetailStudent(student)
+  async function openDetailModal(student) {
+    await setDetailStudent(student)
     setDetailModalVisibility(true)
   }
   function closeDetailModal() {
@@ -45,6 +58,39 @@ const Students = () => {
       />
     )
   }
+
+  // Delete
+  async function openDeleteModal(student) {
+    await setStudentToDelete(student)
+    setDeleteModalVisibility(true)
+  }
+  function closeDeleteModal() {
+    setStudentToDelete({})
+    setDeleteModalVisibility(false)
+  }
+  async function deleteStudentSelected(id) {
+    await deleteStudent(id)
+    messageApi.open({
+      type: 'success',
+      content: `The student _id: ${id} was removed`,
+    })
+    setChangeInStudents(!changeInStudents)
+    closeDeleteModal()
+  }
+
+
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const studentsData = await getStudents();
+        setStudents(studentsData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [changeInStudents]);
 
   useEffect(() => {
     async function fetchData() {
@@ -88,7 +134,7 @@ const Students = () => {
         label: 'Delete Student',
         color: 'red',
         icon: DeleteOutlined,
-        action: () => { console.log('elimitar') },
+        action: (student) => { openDeleteModal(student) },
         displayRule: []
       }
     ])
@@ -96,7 +142,8 @@ const Students = () => {
 
   return (
     <>
-      Studentssssss
+      {contextHolder}
+      <Title level={4}>Students list</Title>
 
       <ActionTable
         // @ts-ignore
@@ -113,7 +160,7 @@ const Students = () => {
         open={detailModalVisibility}
         onOk={closeDetailModal}
         onCancel={closeDetailModal}
-        footer={<Button onClick={closeDetailModal}>cerrar</Button>}
+        footer={<Button onClick={closeDetailModal}>Close</Button>}
         width={'100vh'}
       >
         <Descriptions bordered>
@@ -132,6 +179,33 @@ const Students = () => {
           </Descriptions.Item>
           <Descriptions.Item label="Courses" span={3}>
             {detailStudent['cursos']?.length > 0 ? renderCourseList(detailStudent['cursos']) : <>There aren't courses</>}
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
+
+      {/* DELETE */}
+      <Modal
+        title="DELETE Student"
+        open={deleteModalVisibility}
+        onOk={closeDeleteModal}
+        onCancel={closeDeleteModal}
+        footer={<>
+          <Button onClick={closeDeleteModal}>Close</Button>
+          <Button onClick={() => deleteStudentSelected(studentToDelete['_id'])} danger>Delete</Button>
+        </>}
+        width={'100vh'}
+      >
+        <Text strong>Are you sure to delete this student?</Text>
+
+        <Descriptions bordered style={{ marginTop: 10 }}>
+          <Descriptions.Item label="MONGO _id" span={3}>
+            {studentToDelete['_id']}
+          </Descriptions.Item>
+          <Descriptions.Item label="Name" span={1.5}>
+            {studentToDelete['nombre']}
+          </Descriptions.Item>
+          <Descriptions.Item label="Lastname" span={1.5}>
+            {studentToDelete['apellido']}
           </Descriptions.Item>
         </Descriptions>
       </Modal>

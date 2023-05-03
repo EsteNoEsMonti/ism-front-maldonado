@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import { Avatar, Typography, List, Row, Col } from 'antd'
 import ISM_LOGO from '../../../assets/images/ISM_LOGO.png'
-import getCourse from "../../../middlewares/getCourse";
+import getCourse from "../../../middlewares/Courses/getCourse";
 
 const Course = () => {
 
